@@ -3,7 +3,6 @@ CREATE PROCEDURE ss.load_DIM_Tables
 AS
 BEGIN
 
-
 insert into ss.FACT_OrderDetails(OrderID,price,quantity,discount,order_date,product_id,customer_id, shipper_id,employee_id,supplier_id,category_id)
 select o.OrderID, o.UnitPrice,o.Quantity,o.Discount,ord.OrderDate,o.ProductID, ord.CustomerID, null,ord.EmployeeID, sp.SupplierID,pp.CategoryID 
 from [Order Details] o inner join Orders ord on ord.OrderID = o.OrderID inner join dbo.Customers cus on cus.CustomerID =ord.CustomerID inner join 
@@ -15,6 +14,5 @@ insert into ss.DIM_order_employee(employee_id,employee_name,title,country) selec
 insert into ss.DIM_customer(customer_Id,company_name,region,country) select CustomerID,CompanyName,Region,Country from dbo.Customers; 
 insert into ss.DIM_order_shipper(shipper_id,company_name) select ShipperID, CompanyName from dbo.Shippers;
 insert into ss.DIM_product(product_Id,product_name,quantity_per_unit,unit_price) select ProductID,ProductName,QuantityPerUnit,UnitPrice from dbo.Products; 
-
 
 END;
