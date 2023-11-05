@@ -10,9 +10,7 @@ Drop table IF Exists ss.DIM_product_category;
 Drop table IF Exists ss.DIM_product_supplier;
 Drop table IF Exists ss.DIM_order_employee;
 
-
 Drop sequence IF Exists ss.order_Details_pk_sequence;
-
 
 --Creating sequence for FACT_OrderDetails
 CREATE SEQUENCE ss.order_Details_pk_sequence
@@ -66,7 +64,6 @@ CREATE TABLE ss.DIM_product_supplier (
     eff_start_date DATE,
     eff_end_date DATE
 );
-
 
 -- Creating table DIM_order_employee
 CREATE TABLE ss.DIM_order_employee (
