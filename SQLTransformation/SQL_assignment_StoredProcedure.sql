@@ -1,12 +1,11 @@
-
 CREATE PROCEDURE ss.load_DIM_Tables
 AS
 BEGIN
 
-insert into ss.FACT_OrderDetails(OrderID,price,quantity,discount,order_date,product_id,customer_id, shipper_id,employee_id,supplier_id,category_id)
-select o.OrderID, o.UnitPrice,o.Quantity,o.Discount,ord.OrderDate,o.ProductID, ord.CustomerID, null,ord.EmployeeID, sp.SupplierID,pp.CategoryID 
-from [Order Details] o inner join Orders ord on ord.OrderID = o.OrderID inner join dbo.Customers cus on cus.CustomerID =ord.CustomerID inner join 
-dbo.Products pp on o.ProductID=pp.ProductID inner join dbo.Suppliers sp on pp.SupplierID=sp.SupplierID; 
+insert into ss.FACT_OrderDetails(OrderID, customer_id, product_id, price, quantity, discount, employee_id, shipper_id, order_date, category_id, supplier_id )
+select o.OrderID, ord.CustomerID, o.ProductID, o.UnitPrice, o.Quantity, o.Discount, ord.EmployeeID, ord.ShipVia, ord.OrderDate, pp.CategoryID, sp.SupplierID
+from [Order Details] o inner join Orders ord on ord.OrderID = o.OrderID inner join dbo.Customers cus on cus.CustomerID = ord.CustomerID inner join 
+dbo.Products pp on o.ProductID = pp.ProductID inner join dbo.Suppliers sp on pp.SupplierID = sp.SupplierID; 
 
 insert into ss.DIM_product_category(category_Id, category_name) select CategoryID,CategoryName from dbo.Categories;
 insert into ss.DIM_product_supplier(supplier_Id, company_name,region,country,eff_start_date,eff_end_date) select SupplierID,CompanyName,Region,Country, '2023-01-01', DATEADD(YEAR, 1, '2023-01-01') - 1 from dbo.Suppliers;
